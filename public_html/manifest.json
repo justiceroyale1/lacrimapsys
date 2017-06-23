@@ -1,0 +1,7 @@
+{
+  "name": "Lafia Crime Mapping System",
+  "short_name": "LaCriMapSys",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
