@@ -346,7 +346,7 @@ Lacrimapsys.createMessageBox = function (controlDiv, text, state) {
     var controlText = document.createElement('div');
     controlText.style.color = 'rgb(25,25,25)';
     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '100%';
+    controlText.style.fontSize = '150%';
     controlText.style.padding = '6px';
     controlText.textContent = text;
     controlUI.appendChild(controlText);
@@ -450,7 +450,7 @@ Lacrimapsys.createOutpostFeatureForm = function (id, options) {
 
             + '<div>'
             + '<label for="form-field-select-1">Outpost</label>'
-            + '<input type="text" class="form-control" id="outpost" required/>'
+            + '<input type="text" class="form-control" id="outpostName" required/>'
             + '</div>'
             + '<div>'
             + '<select id="o_command" class="form-control">'
@@ -495,7 +495,7 @@ Lacrimapsys.createPatrolFeatureForm = function (id, options) {
 
             + '<div>'
             + '<label for="form-field-select-1">Patrol</label>'
-            + '<input type="text" class="form-control" id="patrol" required/>'
+            + '<input type="text" class="form-control" id="patrolName" required/>'
             + '</div>'
             + '<div>'
             + '<select id="p_command" class="form-control">'
