@@ -1,72 +1,36 @@
-[debug] [2017-06-23T03:51:25.957Z] ----------------------------------------------------------------------
-[debug] [2017-06-23T03:51:25.976Z] Command:      C:\Program Files\nodejs\node.exe C:\Users\ABUTU\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2017-06-23T03:51:25.979Z] CLI Version:  3.9.1
-[debug] [2017-06-23T03:51:25.980Z] Platform:     win32
-[debug] [2017-06-23T03:51:25.980Z] Node Version: v6.10.3
-[debug] [2017-06-23T03:51:25.985Z] Time:         Fri Jun 23 2017 04:51:25 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T03:51:25.985Z] ----------------------------------------------------------------------
+[debug] [2017-07-03T23:16:04.236Z] ----------------------------------------------------------------------
+[debug] [2017-07-03T23:16:04.259Z] Command:      C:\Program Files\nodejs\node.exe C:\Users\ABUTU\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2017-07-03T23:16:04.259Z] CLI Version:  3.9.1
+[debug] [2017-07-03T23:16:04.259Z] Platform:     win32
+[debug] [2017-07-03T23:16:04.259Z] Node Version: v6.10.3
+[debug] [2017-07-03T23:16:04.259Z] Time:         Tue Jul 04 2017 00:16:04 GMT+0100 (W. Central Africa Standard Time)
+[debug] [2017-07-03T23:16:04.259Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2017-06-23T03:51:26.072Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-06-23T03:51:26.074Z] > authorizing via signed-in user
-[debug] [2017-06-23T03:51:26.090Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2017-06-23T03:51:26.092Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/zLT_gW3mmEw2pWSLyKdaBkNaagQx2IJZNkNC1WQNcfE',
+[debug] [2017-07-03T23:16:04.337Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-07-03T23:16:04.337Z] > authorizing via signed-in user
+[debug] [2017-07-03T23:16:04.352Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-07-03T23:16:04.352Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/zgWKatZ1-3S-3aADu5Nkjy7gpmNDVSNFiwWNjVg-ns1FBjby7Z9yZ29TkjjPpwCX',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Fri Jun 23 2017 04:51:26 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T03:51:28.340Z] <<< HTTP RESPONSE 200
-[debug] [2017-06-23T03:51:28.410Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/map-project-1494699551234  
- Fri Jun 23 2017 04:51:28 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T03:51:29.958Z] <<< HTTP RESPONSE 200
-[debug] [2017-06-23T03:51:29.962Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/map-project-1494699551234/tokens  
- Fri Jun 23 2017 04:51:29 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T03:51:31.228Z] <<< HTTP RESPONSE 200
+ Tue Jul 04 2017 00:16:04 GMT+0100 (W. Central Africa Standard Time)
+[debug] [2017-07-03T23:16:06.066Z] <<< HTTP RESPONSE 200
+[debug] [2017-07-03T23:16:06.129Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/map-project-1494699551234  
+ Tue Jul 04 2017 00:16:06 GMT+0100 (W. Central Africa Standard Time)
+[debug] [2017-07-03T23:16:08.367Z] <<< HTTP RESPONSE 200
+[debug] [2017-07-03T23:16:08.367Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/map-project-1494699551234/tokens  
+ Tue Jul 04 2017 00:16:08 GMT+0100 (W. Central Africa Standard Time)
+[debug] [2017-07-03T23:16:09.914Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from 'C:\Users\ABUTU\Documents\NetBeansProjects\LaCriMapSys\public_html'...
 [info] 
-[debug] [2017-06-23T03:51:31.253Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/map-project-1494699551234  
- Fri Jun 23 2017 04:51:31 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T03:51:32.702Z] <<< HTTP RESPONSE 200
-[debug] [2017-06-23T03:51:32.702Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/215190078870/clients/_:getWebAppConfig  
- Fri Jun 23 2017 04:51:32 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T03:51:34.418Z] <<< HTTP RESPONSE 200
-[info] i  hosting: Serving hosting files from: ./
-[info] +  hosting: Local server: http://localhost:5000
-
-[debug] [2017-06-23T11:01:54.218Z] ----------------------------------------------------------------------
-[debug] [2017-06-23T11:01:54.256Z] Command:      C:\Program Files\nodejs\node.exe C:\Users\ABUTU\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2017-06-23T11:01:54.266Z] CLI Version:  3.9.1
-[debug] [2017-06-23T11:01:54.270Z] Platform:     win32
-[debug] [2017-06-23T11:01:54.271Z] Node Version: v6.10.3
-[debug] [2017-06-23T11:01:54.323Z] Time:         Fri Jun 23 2017 12:01:54 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T11:01:54.324Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2017-06-23T11:01:54.507Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-06-23T11:01:54.517Z] > authorizing via signed-in user
-[debug] [2017-06-23T11:01:54.527Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2017-06-23T11:01:54.527Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/zLT_gW3mmEw2pWSLyKdaBkNaagQx2IJZNkNC1WQNcfE',
-  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
-  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
-  grant_type: 'refresh_token',
-  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Fri Jun 23 2017 12:01:54 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T11:01:56.822Z] <<< HTTP RESPONSE 200
-[debug] [2017-06-23T11:01:56.898Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/map-project-1494699551234  
- Fri Jun 23 2017 12:01:56 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T11:01:58.520Z] <<< HTTP RESPONSE 200
-[debug] [2017-06-23T11:01:58.530Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/map-project-1494699551234/tokens  
- Fri Jun 23 2017 12:01:58 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T11:01:59.434Z] <<< HTTP RESPONSE 200
-[info] 
-[info] === Serving from 'C:\Users\ABUTU\Documents\NetBeansProjects\LaCriMapSys\public_html'...
-[info] 
-[debug] [2017-06-23T11:01:59.459Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/map-project-1494699551234  
- Fri Jun 23 2017 12:01:59 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T11:02:01.371Z] <<< HTTP RESPONSE 200
-[debug] [2017-06-23T11:02:01.371Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/215190078870/clients/_:getWebAppConfig  
- Fri Jun 23 2017 12:02:01 GMT+0100 (W. Central Africa Standard Time)
-[debug] [2017-06-23T11:02:02.895Z] <<< HTTP RESPONSE 200
+[debug] [2017-07-03T23:16:09.929Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/map-project-1494699551234  
+ Tue Jul 04 2017 00:16:09 GMT+0100 (W. Central Africa Standard Time)
+[debug] [2017-07-03T23:16:11.586Z] <<< HTTP RESPONSE 200
+[debug] [2017-07-03T23:16:11.586Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/215190078870/clients/_:getWebAppConfig  
+ Tue Jul 04 2017 00:16:11 GMT+0100 (W. Central Africa Standard Time)
+[debug] [2017-07-03T23:16:13.325Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: ./
 [info] +  hosting: Local server: http://localhost:5000
 
