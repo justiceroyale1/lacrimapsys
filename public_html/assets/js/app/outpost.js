@@ -1,8 +1,20 @@
-/* global Station, Lacrimapsys, crimeOptions */
+/* global Station, Lacrimapsys, crimeOptions, Feature */
 
 function Outpost(featureType, lat, lng, command, name) {
-    Station.call(featureType, lat, lng, command);
-    this.name = name;
+    Station.call(this, featureType, lat, lng, command);
+    
+    if (Feature.isEmpty(name)) {
+        // remove all feature forms.
+        $("#outpost").remove();
+        Lacrimapsys.featureMarker.setMap(null);
+        Lacrimapsys.clicks = 0;
+        var messageBoxDiv = document.createElement('div');
+        // display error message
+        Lacrimapsys.displayMessage(messageBoxDiv, "You must have forgotten to enter a name for the outpost, please try again.", '1');
+        
+    }else{
+        this.name = name;
+    }
 }
 
 /**
@@ -35,9 +47,9 @@ Outpost.prototype.setName = function (name) {
     this.name = name;
 };
 
-Outpost.saveData = function (database, station) {
-    var stationsRef = database.ref("stations/");
-    stationsRef.push(station.getOutpostData(), function () {
+Outpost.saveData = function (database, outpost) {
+    var outpostsRef = database.ref("outposts/");
+    outpostsRef.push(outpost.getOutpostData(), function () {
 
         // remove add outpost feature form
         $("#outpost").remove();
@@ -64,7 +76,8 @@ Outpost.addFeatureHandler = function (stationsRef) {
             var commandOptions = "";
             snapshot.forEach(function (snap) {
 //                                            console.log(snap.val());
-                commandOptions += "<option value='" + snap.val().command + "'>" + snap.val().command + "</option>";
+// don't unescape snap.val().command as a value, but do unscape it as an option so that it is human readable.
+                commandOptions += "<option value='" + snap.val().command + "'>" + _.unescape(snap.val().command) + "</option>";
             });
             Lacrimapsys.createOutpostFeatureForm('outpost', commandOptions);
         } else {

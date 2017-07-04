@@ -2,8 +2,19 @@
 
 function Station(featureType, lat, lng, command) {
     Feature.call(this, featureType, lat, lng);
+    
+    if (Feature.isEmpty(command)) {
+        // remove all feature forms.
+        $("#station").remove();
+        Lacrimapsys.featureMarker.setMap(null);
+        Lacrimapsys.clicks = 0;
+        var messageBoxDiv = document.createElement('div');
+        // display error message
+        Lacrimapsys.displayMessage(messageBoxDiv, "You must have forgotten to enter a name for the station, please try again.", '1');
+    } else {
+        this.command = command;
+    }
 
-    this.command = command;
     this.numOfOfficers = 0;
     this.numOfResponses = 0;
 }

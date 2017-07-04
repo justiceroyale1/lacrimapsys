@@ -171,6 +171,7 @@
         <!--firebase-->
         <script src="../assets/js/app/firebase.js"></script>
         <!--Lacrimapsys-->
+        <script src="../assets/js/underscore.js"></script>
         <script src="../assets/js/app/feature.js"></script>
         <script src="../assets/js/app/crime_incident.js"></script>
         <script src="../assets/js/app/station.js"></script>
@@ -215,50 +216,39 @@
                                     var crime = new CrimeIncident("Crime", Lacrimapsys.featureMarker.getPosition().lat(), Lacrimapsys.featureMarker.getPosition().lng(), $("#crimeType").val());
                                     CrimeIncident.saveData(database, crime);
                                 });
-
-
-//To-do: test these
-
                                 // save station
                                 $("body").on("click", "#saveStationBtn", function () {
-                                    var station = new Station("Station", Lacrimapsys.featureMarker.getPosition().lat(), Lacrimapsys.featureMarker.getPosition().lng(), $("#command").val());
-                                    Station.saveData(database, station);
-//                                    stationsRef.push(station.getStationData(), function () {
-//                                        // remove add station feature form
-//                                        $("#station").remove();
-//                                        // remove feature marker
-//                                        Lacrimapsys.featureMarker.setMap(null);
-//                                        // reset clicks
-//                                        Lacrimapsys.clicks = 0;
-//                                        // display error message
-//                                        Lacrimapsys.displayMessage(messageBoxDiv, "Feature added.", '0');
-//                                    }).catch(function (err) {
-//                                        // display error message
-//                                        Lacrimapsys.displayMessage(messageBoxDiv, err.toString(), '1');
-//                                    });
+                                    var station = new Station("Station", Lacrimapsys.featureMarker.getPosition().lat(), Lacrimapsys.featureMarker.getPosition().lng(), _.escape($("#command").val()));
+                                    // To-do: add error handling => start from here 
+//                                    if the station's command attribute is not empty.
+                                    if (!Feature.isEmpty(station.getCommand())) {
+                                        // save station's data to the database.
+                                        Station.saveData(database, station);
+//                                        console.log("Command is empty");
+                                    }
                                 });
-
-
-
-                                // save crime incident
+                                // save outpost
                                 $("body").on("click", "#saveOutpostBtn", function () {
-                                    var outpost = new Outpost("Oupost", Lacrimapsys.featureMarker.getPosition().lat(),
-                                            Lacrimapsys.featureMarker.getPosition().lng(), $("#command").val(), $("#name").val());
+                                    var outpost = new Outpost("Outpost", Lacrimapsys.featureMarker.getPosition().lat(),
+                                            Lacrimapsys.featureMarker.getPosition().lng(), _.escape($("#o_command").val()), _.escape($("#outpostName").val()));
+                                    // if the outpost's name attribute is not empty.
+                                    if (!Feature.isEmpty(outpost.getName())) {
+                                        // save outpost's data to the database.
+                                        Outpost.saveData(database, outpost);
 
-                                    outpostsRef.push(outpost.getOutpostData(), function () {
-
-                                        // remove add outpost feature form
-                                        $("#outpost").remove();
-                                        // remove feature marker
-                                        Lacrimapsys.featureMarker.setMap(null);
-                                        // reset clicks
-                                        Lacrimapsys.clicks = 0;
-
-                                    }).catch(function (err) {
-                                        // display error message
-                                        Lacrimapsys.displayMessage(messageBoxDiv, err.toString(), '1');
-                                    });
+                                    }
                                 });
+                                // save patrol
+                                $("body").on("click", "#savePatrolBtn", function () {
+                                    var patrol = new Patrol("Patrol", Lacrimapsys.featureMarker.getPosition().lat(),
+                                            Lacrimapsys.featureMarker.getPosition().lng(), _.escape($("#p_command").val()), _.escape($("#patrolName").val()));
+                                    // if the patrol's name attribute is not empty.
+                                    if (!Feature.isEmpty(patrol.getName())) {
+                                        // save patrol's data to the database.
+                                        Patrol.saveData(database, patrol);
+                                    }
+                                });
+
                             } else {
                                 // User is signed out.
                                 console.log("user signed out");

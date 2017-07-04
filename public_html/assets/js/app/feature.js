@@ -96,3 +96,18 @@ Feature.isLngValid = function (lng) {
     // equal to 0 and less than or equal 180.
     return ((Math.abs(lng)) >= 0 && (Math.abs(lng) <= 180));
 };
+
+/**
+ * This functions checks if an object is empty. 
+ * @param {type} obj The object to be checked.
+ * @returns {Boolean} True if the object is empty and false otherwise.
+ */
+Feature.isEmpty = function(obj){
+    if(typeof obj === 'string'){
+        return (obj === ' ' || obj === '');
+    }else if(typeof obj === 'object'){
+        return (obj === null);
+    }else if(typeof obj === 'undefined'){
+        return true;
+    }
+};
