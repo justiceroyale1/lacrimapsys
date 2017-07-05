@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
         <!-- bootstrap & fontawesome -->
-        <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 
         <!-- page specific plugin styles -->
@@ -167,7 +167,7 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&v=3&region=NG">
         </script>
         <!--map functions-->
-        <script src="../assets/js/map.js"></script>
+        <!--<script src="../assets/js/map.js"></script>-->
         <!--firebase-->
         <script src="../assets/js/app/firebase.js"></script>
         <!--Lacrimapsys-->
@@ -194,13 +194,15 @@
                                 var crimeOptions = "";
                                 var commandOptions = "";
                                 var database = firebase.database();
-                                var crimesRef = firebase.database().ref("crimes/");
-                                var incidentsRef = firebase.database().ref("incidents/");
-                                var stationsRef = firebase.database().ref("stations/");
-                                var outpostsRef = firebase.database().ref("outposts/");
+                                var formOptions = "<option>select feature</option>"
+                                        + "<option value='1'>Crime</option>"
+                                        + "<option value='2'>Station</option>"
+                                        + "<option value='3'>Oupost</option>"
+                                        + "<option value='4'>Patrol</option>";
 //                            var analysisRef = firebase.database().ref("analysis/");
                                 // startup the system
                                 var lcms = new Lacrimapsys("map-canvas");
+                                lcms.clickHandler(formOptions);
                                 var options = {
                                     database: database
                                 };

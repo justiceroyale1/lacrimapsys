@@ -1,5 +1,5 @@
 
-/* global Feature, Lacrimapsys */
+/* global Feature, Lacrimapsys, google */
 
 /**
  * This specifies a CrimeIncident constructor.
@@ -187,7 +187,27 @@ CrimeIncident.addFeatureHandler = function (crimesRef) {
         } else {
             console.warn("a database error occured");
         }
+    });
+};
+CrimeIncident.viewIncidents = function (database, icons) {
+//    console.log(icons.downloadURLs);
+    var incidentsRef = database.ref("incidents/");
+    incidentsRef.orderByValue().on('value', function (snapshot) {
 
-//        $("body").on("change", "#feature", crimeOptions, lcms.featureChangeHandler);
+        if (snapshot.val()) {
+            var incidents = [];
+            snapshot.forEach(function (snap) {
+                incidents.push({
+                    position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
+                    type: snap.val().crime,
+                    icon: icons[snap.val().crime].icon
+                });
+
+            });
+            console.log(incidents);
+            Lacrimapsys.displayFeatures(incidents);
+        } else {
+            console.warn("a database error occured");
+        }
     });
 };

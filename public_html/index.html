@@ -166,15 +166,58 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&v=3&region=NG">
         </script>
         <!--script to manipulate the map-->
-        <script src="assets/js/map.js"></script>
+        <!--<script src="assets/js/map.js"></script>-->
         <!--firebase-->
         <script src="assets/js/app/firebase.js"></script>
         <!--Lacrimapsys-->
         <script src="assets/js/app/feature.js"></script>
+        <script src="../assets/js/app/crime_incident.js"></script>
         <script src="assets/js/app/main.js"></script>
         <script >
-                    //startup the map
-                    var lcms = new Lacrimapsys("map-canvas");
+                    $(document).ready(function () {
+                        signIn();
+
+//used to test something: done.
+//                        var formOptions = "<option>select feature</option>"
+//                                + "<option value='1'>Crime</option>"
+//                                + "<option value='2'>Station</option>"
+//                                + "<option value='3'>Oupost</option>"
+//                                + "<option value='4'>Patrol</option>";
+                        var database = firebase.database();
+                        var storage = firebase.storage().ref('icons/');
+//                        var iconBase = storage.child('icons');
+                        var icons = {
+                            "Armed Robbery": {
+                                icon: "assets/icons/robbery.png"
+                            },
+                            "Others": {
+                                icon: "assets/icons/pirates.png"
+                            },
+                            "Rape": {
+                                icon: "assets/icons/rape.png"
+                            },
+                            "Theft": {
+                                icon: "assets/icons/theft.png"
+                            },
+                            "Vandalism": {
+                                icon: "assests/icons/blast.png"
+                            },
+                            "Police": {
+                                icon: "assests/icons/ipolice.png"
+                            }
+                        };
+                        //startup the map
+                        firebase.auth().onAuthStateChanged(function (user) {
+                            //if user is signed in.
+                            if (user) {
+                                var lcms = new Lacrimapsys("map-canvas");
+//                                console.log(icons);
+                                CrimeIncident.viewIncidents(database, icons);
+                            }
+                        });
+                        // won't use this here
+//                        lcms.clickHandler(formOptions);
+                    });
         </script>
 
         <!-- inline scripts related to this page -->
