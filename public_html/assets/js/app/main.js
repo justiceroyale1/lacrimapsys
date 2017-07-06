@@ -133,6 +133,7 @@ function Lacrimapsys(elementId) {
         center: new google.maps.LatLng(8.494239, 8.516786),
         rotateControl: true,
         zoom: 15,
+        disableDoubleClickZoom: true,
         mapTypeControlOptions: {
             mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
                 'styled_map'],
@@ -163,7 +164,7 @@ Lacrimapsys.prototype.clickHandler = function (options) {
             // add click action listener to the feature marker.
             google.maps.event.addListener(Lacrimapsys.featureMarker, "click", function (e) {
                 // create and add an info window on the map.
-                Lacrimapsys.infoWindow = Lacrimapsys.createInfoWindow(e, options);
+                Lacrimapsys.infoWindow = Lacrimapsys.createInfoForm(e, options);
                 Lacrimapsys.infoWindow.addListener('closeclick', function () {
                     // remove all feature forms.
                     $("#crime").remove();
@@ -201,13 +202,107 @@ Lacrimapsys.prototype.clickHandler = function (options) {
 Lacrimapsys.displayFeatures = function (features) {
     // Create markers.
     features.forEach(function (feature) {
+        //create a marker image with the path to your graphic and the size of your graphic
+        var markerImage = new google.maps.MarkerImage(
+                feature.icon,
+                new google.maps.Size(8, 8), //size
+                null, //origin
+                null, //anchor
+                new google.maps.Size(8, 8) //scale
+                );
+
+
         var marker = new google.maps.Marker({
             position: feature.position,
-            icon: feature.icon,
+            icon: markerImage,
             title: feature.type,
             map: Lacrimapsys.map
         });
+        
+        // get the zoom level before any zoom event occurs.
+        var prevZoom = Lacrimapsys.map.getZoom();
+
+        //when the map zoom changes, resize the icon based on the zoom level so the marker covers the same geographic area
+        google.maps.event.addListener(Lacrimapsys.map, 'zoom_changed', function () {
+
+            var defaultZoomSize = 8; //the size of the icon at the default zoom level: level 15.
+            var maxPixelSize = 37; //restricts the maximum size of the icon, otherwise the browser will choke at higher zoom levels trying to scale an image to millions of pixels
+            
+            // get the zoom level when event occured.
+            var nextZoom = Lacrimapsys.map.getZoom();
+            
+            
+            var zoom = (nextZoom - prevZoom) * 0.5;
+            var relativePixelSize = defaultZoomSize;
+            if (zoom > 0) {
+                // make the pixel size increase relative to the zoom level
+                relativePixelSize = Math.round(Math.pow(defaultZoomSize, zoom)); 
+            }
+
+            if (relativePixelSize > maxPixelSize) { //restrict the maximum size of the icon.
+                relativePixelSize = maxPixelSize;
+            } else if (relativePixelSize < defaultZoomSize) { // restrict the minimum size of the icon.
+                relativePixelSize = defaultZoomSize;
+            }
+            //change the size of the icon
+            marker.setIcon(
+                    new google.maps.MarkerImage(
+                            marker.getIcon().url, //marker's same icon graphic
+                            null, //size
+                            null, //origin
+                            null, //anchor
+                            new google.maps.Size(relativePixelSize, relativePixelSize) //changes the scale
+                            )
+                    );
+        });
+
+        marker.addListener('click', function (event) {
+            switch (feature.type) {
+                case 'Crime':
+                {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: Lacrimapsys.createFeatureWindow(feature.type, "Type: " + feature.name),
+                        position: event.latLng
+                    });
+                    break;
+                }
+                case 'Station':
+                {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: Lacrimapsys.createFeatureWindow(feature.type, "Command: " + feature.name),
+                        position: event.latLng
+                    });
+                    break;
+                }
+                case 'Outpost':
+                {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: Lacrimapsys.createFeatureWindow(feature.type, "Name: " + feature.name),
+                        position: event.latLng
+                    });
+                    break;
+                }
+                case 'Patrol':
+                {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: Lacrimapsys.createFeatureWindow(feature.type, "Name: " + feature.name),
+                        position: event.latLng
+                    });
+                    break;
+                }
+                default:
+                {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: Lacrimapsys.createFeatureWindow("Map feature", ""),
+                        position: event.latLng
+                    });
+                }
+            }
+            infoWindow.open(Lacrimapsys.map, marker);
+        });
+
     });
+
 };
 
 Lacrimapsys.createFeatureForm = function (id, options) {
@@ -227,7 +322,62 @@ Lacrimapsys.createFeatureForm = function (id, options) {
     $("#" + id).hide(); // hide feature form
 };
 
-Lacrimapsys.createInfoWindow = function (event, formOptions) {
+Lacrimapsys.createFeatureWindow = function (header, content) {
+
+    var vindowDiv = '<div class="row">'
+            + '<div class="col-sm-6 widget-container-col ui-sortable" id="widget-container-col-12">'
+            + '<div class="widget-box transparent ui-sortable-handle" id="widget-box-12">'
+            + '<div class="widget-header">'
+            + '<h4 class="widget-title lighter">'
+            + header
+            + '</h4>'
+//
+//            + '<div class="widget-toolbar no-border">'
+//            + '<a href="#" data-action="settings">'
+//            + '<i class="ace-icon fa fa-cog"></i>'
+//            + '</a>'
+//
+//            + '<a href="#" data-action="reload">'
+//            + '<i class="ace-icon fa fa-refresh"></i>'
+//            + '</a>'
+//
+//            + '<a href="#" data-action="collapse">'
+//            + '<i class="ace-icon fa fa-chevron-up"></i>'
+//            + '</a>'
+//            + '<a href="#" data-action="close">'
+//            + '<i class="ace-icon fa fa-times"></i>'
+//            + '</a>'
+//            + '</div>'
+            + '</div>'
+
+            + '<div class="widget-body">'
+            + '<div class="widget-main padding-6 no-padding-left no-padding-right">'
+            + content
+//            + 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis. Nullam interdum massa vel nisl fringilla sed viverra erat tincidunt. Phasellus in ipsum velit. Maecenas id erat vel sem convallis blandit. Nunc aliquam enim ut arcu aliquet adipiscing. Fusce dignissim volutpat justo non consectetur.'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '</div>';
+
+    var windowDiv = '<div id="' + " " + '">'
+            + '<table>'
+            + '<tr>'
+            + '<td>Feature:</td>'
+            + '<td>'
+            + '<select id="feature">'
+//            + options
+            + '</select>'
+            + '</td>'
+            + '</tr>'
+            + '</table>'
+            + '</div>';
+    return vindowDiv;
+//    $("#map-canvas").append(vindowDiv);
+//    $("#" + id).hide(); // hide feature window
+};
+
+Lacrimapsys.createInfoForm = function (event, formOptions) {
 //    var formOptions = "<option>select feature</option>"
 //            + "<option value='1'>Crime</option>"
 //            + "<option value='2'>Station</option>"
@@ -242,6 +392,7 @@ Lacrimapsys.createInfoWindow = function (event, formOptions) {
         position: event.latLng
     });
 };
+
 Lacrimapsys.featureChangeHandler = function (options) {
     Lacrimapsys.options = "";
     // switch the value of the element

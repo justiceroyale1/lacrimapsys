@@ -217,7 +217,8 @@ CrimeIncident.showIncidents = function (database, icons) {
             snapshot.forEach(function (snap) {
                 incidents.push({
                     position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
-                    type: snap.val().crime,
+                    type: snap.val().feature_type,
+                    name: _.unescape(snap.val().crime),
                     icon: icons[snap.val().crime].icon
                 });
 

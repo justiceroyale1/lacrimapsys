@@ -127,7 +127,8 @@ Station.showStations = function (database, icons) {
             snapshot.forEach(function (snap) {
                 stations.push({
                     position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
-                    type: _.unescape(snap.val().command) + " " + snap.val().feature_type,
+                    type: snap.val().feature_type,
+                    name: _.unescape(snap.val().command),
                     icon: icons["Police"].icon
                 });
 
