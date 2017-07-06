@@ -95,7 +95,8 @@ Patrol.showOutposts = function (database, icons) {
             snapshot.forEach(function (snap) {
                 patrols.push({
                     position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
-                    type: _.unescape(snap.val().name) + " " + snap.val().feature_type,
+                    type: snap.val().feature_type,
+                    name: _.unescape(snap.val().name),
                     icon: icons["Police"].icon
                 });
 
