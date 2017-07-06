@@ -1,4 +1,4 @@
-/* global Station, Lacrimapsys, crimeOptions, Feature */
+/* global Station, Lacrimapsys, crimeOptions, Feature, _, google */
 
 function Outpost(featureType, lat, lng, command, name) {
     Station.call(this, featureType, lat, lng, command);
@@ -69,7 +69,11 @@ Outpost.saveData = function (database, outpost) {
     });
 };
 
-
+/**
+ * This function handles adding outpost features.
+ * @param {firebase.database.Reference} stationsRef
+ * @returns {void}
+ */
 Outpost.addFeatureHandler = function (stationsRef) {
     stationsRef.orderByValue().on("value", function (snapshot) {
         if (snapshot.val()) {
@@ -80,6 +84,35 @@ Outpost.addFeatureHandler = function (stationsRef) {
                 commandOptions += "<option value='" + snap.val().command + "'>" + _.unescape(snap.val().command) + "</option>";
             });
             Lacrimapsys.createOutpostFeatureForm('outpost', commandOptions);
+        } else {
+            console.warn("a database error occured");
+        }
+    });
+};
+
+/**
+ * This function displays the outposts in the database on the map.
+ * @param {firebase.database.Reference} database
+ * @param {Object} icons
+ * @returns {void}
+ */
+Outpost.showOutposts = function (database, icons) {
+//    console.log(icons.downloadURLs);
+    var outpostsRef = database.ref("outposts/");
+    outpostsRef.orderByValue().on('value', function (snapshot) {
+
+        if (snapshot.val()) {
+            var outposts = [];
+            snapshot.forEach(function (snap) {
+                outposts.push({
+                    position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
+                    type: _.unescape(snap.val().name) + " " + snap.val().feature_type,
+                    icon: icons["Police"].icon
+                });
+
+            });
+//            console.log(incidents);
+            Lacrimapsys.displayFeatures(outposts);
         } else {
             console.warn("a database error occured");
         }

@@ -152,6 +152,12 @@ CrimeIncident.prototype.setRespondent = function (respondent) {
     this.respondent = respondent;
 };
 
+/**
+ * This function saves the data of a crime incident to the database.
+ * @param {type} database
+ * @param {type} crime
+ * @returns {void}
+ */
 CrimeIncident.saveData = function (database, crime) {
     var incidentsRef = database.ref("incidents/");
     incidentsRef.push(crime.getCrimeIncidentData(), function () {
@@ -174,6 +180,11 @@ CrimeIncident.saveData = function (database, crime) {
     });
 };
 
+/**
+ * This function handles adding crime incident features.
+ * @param {type} crimesRef
+ * @returns {void}
+ */
 CrimeIncident.addFeatureHandler = function (crimesRef) {
     crimesRef.orderByValue().on('value', function (snapshot) {
 
@@ -189,7 +200,14 @@ CrimeIncident.addFeatureHandler = function (crimesRef) {
         }
     });
 };
-CrimeIncident.viewIncidents = function (database, icons) {
+
+/**
+ * This function displays crime incidents stored in the database on the map.
+ * @param {type} database
+ * @param {type} icons
+ * @returns {void}
+ */
+CrimeIncident.showIncidents = function (database, icons) {
 //    console.log(icons.downloadURLs);
     var incidentsRef = database.ref("incidents/");
     incidentsRef.orderByValue().on('value', function (snapshot) {
@@ -204,10 +222,10 @@ CrimeIncident.viewIncidents = function (database, icons) {
                 });
 
             });
-            console.log(incidents);
+//            console.log(incidents);
             Lacrimapsys.displayFeatures(incidents);
         } else {
-            console.warn("a database error occured");
+            console.error("a database error occured");
         }
     });
 };

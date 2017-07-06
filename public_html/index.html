@@ -169,9 +169,14 @@
         <!--<script src="assets/js/map.js"></script>-->
         <!--firebase-->
         <script src="assets/js/app/firebase.js"></script>
+        <!--underscore.js-->
+        <script src="../assets/js/underscore.js"></script>
         <!--Lacrimapsys-->
         <script src="assets/js/app/feature.js"></script>
         <script src="../assets/js/app/crime_incident.js"></script>
+        <script src="../assets/js/app/station.js"></script>
+        <script src="../assets/js/app/outpost.js"></script>
+        <script src="../assets/js/app/patrol.js"></script>
         <script src="assets/js/app/main.js"></script>
         <script >
                     $(document).ready(function () {
@@ -203,7 +208,7 @@
                                 icon: "assests/icons/blast.png"
                             },
                             "Police": {
-                                icon: "assests/icons/ipolice.png"
+                                icon: "assets/icons/police.png"
                             }
                         };
                         //startup the map
@@ -212,7 +217,10 @@
                             if (user) {
                                 var lcms = new Lacrimapsys("map-canvas");
 //                                console.log(icons);
-                                CrimeIncident.viewIncidents(database, icons);
+                                CrimeIncident.showIncidents(database, icons);
+                                Station.showStations(database, icons);
+                                Outpost.showOutposts(database, icons);
+                                Patrol.showOutposts(database, icons);
                             }
                         });
                         // won't use this here

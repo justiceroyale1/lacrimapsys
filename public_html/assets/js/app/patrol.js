@@ -1,4 +1,4 @@
-/* global Station, Lacrimapsys, crimeOptions, Feature */
+/* global Station, Lacrimapsys, crimeOptions, Feature, _, google */
 
 function Patrol(featureType, lat, lng, command, name) {
     Station.call(this, featureType, lat, lng, command);
@@ -79,6 +79,29 @@ Patrol.addFeatureHandler = function (stationsRef) {
                 commandOptions += "<option value='" + snap.val().command + "'>" + _.unescape(snap.val().command) + "</option>";
             });
             Lacrimapsys.createPatrolFeatureForm('patrol', commandOptions);
+        } else {
+            console.warn("a database error occured");
+        }
+    });
+};
+
+Patrol.showOutposts = function (database, icons) {
+//    console.log(icons.downloadURLs);
+    var patrolsRef = database.ref("patrols/");
+    patrolsRef.orderByValue().on('value', function (snapshot) {
+
+        if (snapshot.val()) {
+            var patrols = [];
+            snapshot.forEach(function (snap) {
+                patrols.push({
+                    position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
+                    type: _.unescape(snap.val().name) + " " + snap.val().feature_type,
+                    icon: icons["Police"].icon
+                });
+
+            });
+//            console.log(incidents);
+            Lacrimapsys.displayFeatures(patrols);
         } else {
             console.warn("a database error occured");
         }
