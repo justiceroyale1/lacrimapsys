@@ -1,5 +1,5 @@
 
-/* global Feature, Lacrimapsys */
+/* global Feature, Lacrimapsys, google */
 
 /**
  * This specifies a CrimeIncident constructor.
@@ -152,6 +152,12 @@ CrimeIncident.prototype.setRespondent = function (respondent) {
     this.respondent = respondent;
 };
 
+/**
+ * This function saves the data of a crime incident to the database.
+ * @param {type} database
+ * @param {type} crime
+ * @returns {void}
+ */
 CrimeIncident.saveData = function (database, crime) {
     var incidentsRef = database.ref("incidents/");
     incidentsRef.push(crime.getCrimeIncidentData(), function () {
@@ -174,6 +180,11 @@ CrimeIncident.saveData = function (database, crime) {
     });
 };
 
+/**
+ * This function handles adding crime incident features.
+ * @param {type} crimesRef
+ * @returns {void}
+ */
 CrimeIncident.addFeatureHandler = function (crimesRef) {
     crimesRef.orderByValue().on('value', function (snapshot) {
 
@@ -187,7 +198,34 @@ CrimeIncident.addFeatureHandler = function (crimesRef) {
         } else {
             console.warn("a database error occured");
         }
+    });
+};
 
-//        $("body").on("change", "#feature", crimeOptions, lcms.featureChangeHandler);
+/**
+ * This function displays crime incidents stored in the database on the map.
+ * @param {type} database
+ * @param {type} icons
+ * @returns {void}
+ */
+CrimeIncident.showIncidents = function (database, icons) {
+//    console.log(icons.downloadURLs);
+    var incidentsRef = database.ref("incidents/");
+    incidentsRef.orderByValue().on('value', function (snapshot) {
+
+        if (snapshot.val()) {
+            var incidents = [];
+            snapshot.forEach(function (snap) {
+                incidents.push({
+                    position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
+                    type: snap.val().crime,
+                    icon: icons[snap.val().crime].icon
+                });
+
+            });
+//            console.log(incidents);
+            Lacrimapsys.displayFeatures(incidents);
+        } else {
+            console.error("a database error occured");
+        }
     });
 };

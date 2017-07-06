@@ -1,4 +1,4 @@
-/* global Feature, Lacrimapsys */
+/* global Feature, Lacrimapsys, google, _ */
 
 function Station(featureType, lat, lng, command) {
     Feature.call(this, featureType, lat, lng);
@@ -107,7 +107,35 @@ Station.saveData = function (database, station) {
     });
 };
 
-
+/**
+ * This function handles adding station features.
+ * @returns {void}
+ */
 Station.addFeatureHandler = function () {
     Lacrimapsys.createStationFeatureForm('station');
+};
+
+
+
+Station.showStations = function (database, icons) {
+//    console.log(icons.downloadURLs);
+    var stationsRef = database.ref("stations/");
+    stationsRef.orderByValue().on('value', function (snapshot) {
+
+        if (snapshot.val()) {
+            var stations = [];
+            snapshot.forEach(function (snap) {
+                stations.push({
+                    position: new google.maps.LatLng(snap.val().lat, snap.val().lng),
+                    type: _.unescape(snap.val().command) + " " + snap.val().feature_type,
+                    icon: icons["Police"].icon
+                });
+
+            });
+//            console.log(incidents);
+            Lacrimapsys.displayFeatures(stations);
+        } else {
+            console.warn("a database error occured");
+        }
+    });
 };

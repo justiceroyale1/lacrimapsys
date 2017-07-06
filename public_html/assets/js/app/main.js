@@ -143,6 +143,9 @@ function Lacrimapsys(elementId) {
     //Associate the styled map with the MapTypeId and set it to display.
     Lacrimapsys.map.mapTypes.set('styled_map', defaultMap);
     Lacrimapsys.map.setMapTypeId('styled_map');
+}
+
+Lacrimapsys.prototype.clickHandler = function (options) {
     // add click action listener to the map reference.
     Lacrimapsys.map.addListener("click", function (event) {
         if (Lacrimapsys.clicks === 0) {
@@ -160,7 +163,7 @@ function Lacrimapsys(elementId) {
             // add click action listener to the feature marker.
             google.maps.event.addListener(Lacrimapsys.featureMarker, "click", function (e) {
                 // create and add an info window on the map.
-                Lacrimapsys.infoWindow = Lacrimapsys.createInfoWindow(e);
+                Lacrimapsys.infoWindow = Lacrimapsys.createInfoWindow(e, options);
                 Lacrimapsys.infoWindow.addListener('closeclick', function () {
                     // remove all feature forms.
                     $("#crime").remove();
@@ -193,7 +196,19 @@ function Lacrimapsys(elementId) {
 
         }
     });
-}
+};
+
+Lacrimapsys.displayFeatures = function (features) {
+    // Create markers.
+    features.forEach(function (feature) {
+        var marker = new google.maps.Marker({
+            position: feature.position,
+            icon: feature.icon,
+            title: feature.type,
+            map: Lacrimapsys.map
+        });
+    });
+};
 
 Lacrimapsys.createFeatureForm = function (id, options) {
     var formDiv = '<div id="' + id + '">'
@@ -211,12 +226,13 @@ Lacrimapsys.createFeatureForm = function (id, options) {
     $("#map-canvas").append(formDiv);
     $("#" + id).hide(); // hide feature form
 };
-Lacrimapsys.createInfoWindow = function (event) {
-    var formOptions = "<option>select feature</option>"
-            + "<option value='1'>Crime</option>"
-            + "<option value='2'>Station</option>"
-            + "<option value='3'>Oupost</option>"
-            + "<option value='4'>Patrol</option>";
+
+Lacrimapsys.createInfoWindow = function (event, formOptions) {
+//    var formOptions = "<option>select feature</option>"
+//            + "<option value='1'>Crime</option>"
+//            + "<option value='2'>Station</option>"
+//            + "<option value='3'>Oupost</option>"
+//            + "<option value='4'>Patrol</option>";
     // create feature form
     Lacrimapsys.createFeatureForm("form", formOptions);
     $("#form").show(); // show feature form
@@ -283,8 +299,9 @@ Lacrimapsys.featureChangeHandler = function (options) {
             }
             break;
         }
-        
-        case '4':{
+
+        case '4':
+        {
             var stationsRef = options.data.database.ref("stations/");
             if ($("#patrol").length === 0) {
                 Patrol.addFeatureHandler(stationsRef);
@@ -298,8 +315,8 @@ Lacrimapsys.featureChangeHandler = function (options) {
                     Lacrimapsys.map.controls[google.maps.ControlPosition.TOP_CENTER].push(messageBoxDiv);
                 }
             }
-                
-                break;
+
+            break;
         }
     }
 
