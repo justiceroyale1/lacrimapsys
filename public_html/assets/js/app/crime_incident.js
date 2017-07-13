@@ -230,3 +230,59 @@ CrimeIncident.showIncidents = function (database, icons) {
         }
     });
 };
+
+CrimeIncident.showHeatMap = function (database) {
+    var incidentsRef = database.ref("incidents/");
+    incidentsRef.orderByValue().on('value', function (snapshot) {
+
+        if (snapshot.val()) {
+            var incidents = [];
+            snapshot.forEach(function (snap) {
+                var position = new google.maps.LatLng(snap.val().lat, snap.val().lng);
+                incidents.push(position);
+
+            });
+//            console.log(incidents);
+            Lacrimapsys.displayHeatMap(incidents);
+        } else {
+            console.error("a database error occured");
+        }
+    });
+};
+
+CrimeIncident.setHeatMapMenu = function (database) {
+    var crimesRef = database.ref("crimes/");
+    crimesRef.orderByValue().on('value', function (snapshot) {
+
+        if (snapshot.val()) {
+            var crimes = [];
+            snapshot.forEach(function (snap) {
+//                console.log(snap.key);
+                crimes.push(snap.key);
+            });
+            Lacrimapsys.createCrimeHeatMapMenu('crime', crimes);
+        } else {
+            console.warn("a database error occured");
+        }
+    });
+};
+
+CrimeIncident.showTypeHeatMap = function (database, type, map) {
+    var incidentsRef = database.ref("incidents/");
+    incidentsRef.orderByValue().on('value', function (snapshot) {
+        if (snapshot.val()) {
+            var incidents = [];
+            snapshot.forEach(function (snap) {
+//                console.log(snap.val()[type]);
+                if (snap.val()[type] == map) {
+                    var position = new google.maps.LatLng(snap.val().lat, snap.val().lng);
+                    incidents.push(position);
+                }
+            });
+//            console.log(incidents);
+            Lacrimapsys.displayHeatMap(incidents);
+        } else {
+            console.error("a database error occured");
+        }
+    });
+};
