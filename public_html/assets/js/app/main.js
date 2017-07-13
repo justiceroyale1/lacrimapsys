@@ -199,14 +199,6 @@ Lacrimapsys.prototype.clickHandler = function (options) {
     });
 };
 
-Lacrimapsys.displayHeatMap = function (data) {
-    var heatMap = new google.maps.visualization.HeatmapLayer({
-        data: data,
-        dissipating: false,
-        map: Lacrimapsys.map
-    });
-};
-
 Lacrimapsys.displayFeatures = function (features) {
     // Create markers.
     features.forEach(function (feature) {
@@ -226,7 +218,7 @@ Lacrimapsys.displayFeatures = function (features) {
             title: feature.type,
             map: Lacrimapsys.map
         });
-
+        
         // get the zoom level before any zoom event occurs.
         var prevZoom = Lacrimapsys.map.getZoom();
 
@@ -235,16 +227,16 @@ Lacrimapsys.displayFeatures = function (features) {
 
             var defaultZoomSize = 8; //the size of the icon at the default zoom level: level 15.
             var maxPixelSize = 37; //restricts the maximum size of the icon, otherwise the browser will choke at higher zoom levels trying to scale an image to millions of pixels
-
+            
             // get the zoom level when event occured.
             var nextZoom = Lacrimapsys.map.getZoom();
-
-
+            
+            
             var zoom = (nextZoom - prevZoom) * 0.5;
             var relativePixelSize = defaultZoomSize;
             if (zoom > 0) {
                 // make the pixel size increase relative to the zoom level
-                relativePixelSize = Math.round(Math.pow(defaultZoomSize, zoom));
+                relativePixelSize = Math.round(Math.pow(defaultZoomSize, zoom)); 
             }
 
             if (relativePixelSize > maxPixelSize) { //restrict the maximum size of the icon.
@@ -527,8 +519,6 @@ Lacrimapsys.createMessageBox = function (controlDiv, text, state) {
     controlText.textContent = text;
     controlUI.appendChild(controlText);
 };
-
-
 Lacrimapsys.createCrimeFeatureForm = function (id, options) {
     var formDiv = '<div id=' + id + ' class="col-xs-12 col-sm-4">'
             + '<div class="widget-box">'
@@ -710,29 +700,3 @@ Lacrimapsys.displayMessage = function (messageBox, errorString, type) {
     }
 };
 
-Lacrimapsys.createCrimeHeatMapMenu = function (type, subs) {
-//    $.each(crimes, function(){
-////        console.log(this);
-//    });
-    var subMenu = '';
-    for (i = 0; i < subs.length; i++) {
-//        console.log(crimes[i]);
-
-        subMenu += '<li class="">'
-                + '<a href="heatmap.html?type='+ type +'&map=' + subs[i] + '">'
-                + '<i class="menu-icon fa fa-caret-right"></i>'
-                + subs[i]
-                + '</a>'
-                + '</li>';
-    }
-    // we want to use ternary operator here.
-    type === 'crime' ? $('#crimes-sub').html(subMenu) : $('#time-' + type).html(subMenu);
-};
-
-Lacrimapsys.getURLVars = function () {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-        vars[key] = value;
-    });
-    return vars;
-};
