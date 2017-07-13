@@ -184,18 +184,33 @@
         <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
         <script 
             type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&v=3&region=NG">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&libraries=visualization&v=3&region=NG">
         </script>
         <!--script to manipulate the map-->
         <script type="text/javascript" src="../assets/js/map.js"></script>
         <!--firebase-->
         <script src="../assets/js/app/firebase.js"></script>
+        <!--underscore.js-->
+        <script src="../assets/js/underscore.js"></script>
         <!--Lacrimapsys-->
         <script src="../assets/js/app/feature.js"></script>
+        <script src="../assets/js/app/crime_incident.js"></script>
+        <script src="../assets/js/app/station.js"></script>
+        <script src="../assets/js/app/outpost.js"></script>
+        <script src="../assets/js/app/patrol.js"></script>
+        <script src="../assets/js/app/analyzer.js"></script>
         <script src="../assets/js/app/main.js"></script>
-        <script type="text/javascript">
-                    //startup the map
-                    var lcms = new Lacrimapsys("map-canvas");
+        <script>
+//                    var storage = firebase.storage().ref('icons/');
+                    var database = firebase.database();
+                    firebase.auth().onAuthStateChanged(function (user) {
+                        //if user is signed in.
+                        if (user) {
+                            var lcms = new Lacrimapsys("map-canvas");
+                            CrimeIncident.setHeatMapMenu(database);
+                            Analyzer.setHeatMapMenu(database);
+                        }
+                    });
         </script>
 
 

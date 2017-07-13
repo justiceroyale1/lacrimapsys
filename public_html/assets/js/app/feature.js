@@ -104,7 +104,7 @@ Feature.isLngValid = function (lng) {
  */
 Feature.isEmpty = function(obj){
     if(typeof obj === 'string'){
-        return (obj === ' ' || obj === '');
+        return (obj === ' ' || obj === '' || obj === 'undefined');
     }else if(typeof obj === 'object'){
         return (obj === null);
     }else if(typeof obj === 'undefined'){

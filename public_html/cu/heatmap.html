@@ -72,33 +72,32 @@
 
             <div class="main-content">
                 <div class="main-content-inner">
-                    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-
-                        <div class="nav-search" id="nav-search">
-                            <form class="form-search">
-                                <span class="input-icon">
-                                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="on" />
-                                    <i class="ace-icon fa fa-search nav-search-icon"></i>
-                                </span>
-                            </form>
-                        </div><!-- /.nav-search -->
-                    </div>
+                    <!--                     <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                    
+                                           <div class="nav-search" id="nav-search">
+                                                <form class="form-search">
+                                                    <span class="input-icon">
+                                                        <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                                                        <i class="ace-icon fa fa-search nav-search-icon"></i>
+                                                    </span>
+                                                </form>
+                                            </div> /.nav-search 
+                                        </div>-->
 
                     <div class="page-content">
 
+                        <!--
+                                                <div class="page-header">
+                                                    <h1>
+                                                                                        Dashboard
+                                                                                        <small>
+                                                                                            <i class="ace-icon fa fa-angle-double-right"></i>
+                                                                                            overview &amp; stats
+                                                                                        </small>
+                                                    </h1>
+                                                </div> /.page-header -->
 
-                        <div class="page-header">
-
-                            <h1>
-                                Add feature
-                                <small>
-                                    <i class="ace-icon fa fa-angle-double-right"></i>
-                                    click on the map to create a marker, then click on the marker to display the feature adding form.
-                                </small>
-                            </h1>
-                        </div><!-- /.page-header -->
-
-                        <div id="map-container" class="row">
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="map-canvas">
                                 <!-- PAGE CONTENT BEGINS -->
 
@@ -166,116 +165,64 @@
         <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&libraries=visualization&v=3&region=NG">
         </script>
-        <!--map functions-->
+        <!--script to manipulate the map-->
         <!--<script src="../assets/js/map.js"></script>-->
         <!--firebase-->
         <script src="../assets/js/app/firebase.js"></script>
-        <!--Lacrimapsys-->
+        <!--underscore.js-->
         <script src="../assets/js/underscore.js"></script>
+        <!--Lacrimapsys-->
         <script src="../assets/js/app/feature.js"></script>
         <script src="../assets/js/app/crime_incident.js"></script>
         <script src="../assets/js/app/station.js"></script>
         <script src="../assets/js/app/outpost.js"></script>
         <script src="../assets/js/app/patrol.js"></script>
-        <script src="../assets/js/app/main.js"></script>
         <script src="../assets/js/app/analyzer.js"></script>
-
-
-
+        <script src="../assets/js/app/main.js"></script>
         <script >
                     $(document).ready(function () {
                         signIn();
 
+//used to test something: done.
+//                        var formOptions = "<option>select feature</option>"
+//                                + "<option value='1'>Crime</option>"
+//                                + "<option value='2'>Station</option>"
+//                                + "<option value='3'>Oupost</option>"
+//                                + "<option value='4'>Patrol</option>";
+                        var database = firebase.database();
+//                        var storage = firebase.storage().ref('icons/');
                         firebase.auth().onAuthStateChanged(function (user) {
+                            //if user is signed in.
                             if (user) {
-                                // User is signed in.
-
-
-                                var crimeOptions = "";
-                                var commandOptions = "";
-                                var database = firebase.database();
-                                var formOptions = "<option>select feature</option>"
-                                        + "<option value='1'>Crime</option>"
-                                        + "<option value='2'>Station</option>"
-                                        + "<option value='3'>Oupost</option>"
-                                        + "<option value='4'>Patrol</option>";
-//                            var analysisRef = firebase.database().ref("analysis/");
-                                // startup the map
                                 var lcms = new Lacrimapsys("map-canvas");
-                                
                                 CrimeIncident.setHeatMapMenu(database);
                                 Analyzer.setHeatMapMenu(database);
-                                
-                                lcms.clickHandler(formOptions);
-                                var options = {
-                                    database: database
-                                };
-                                $("body").on(
-                                        "change",
-                                        "#feature",
-                                        options,
-                                        Lacrimapsys.featureChangeHandler
-                                        );
 
-                                // save crime incident
-                                $("body").on("click", "#saveCrimeBtn", function () {
-                                    var crime = new CrimeIncident("Crime", Lacrimapsys.featureMarker.getPosition().lat(), Lacrimapsys.featureMarker.getPosition().lng(), $("#crimeType").val());
-                                    CrimeIncident.saveData(database, crime);
-                                });
-                                // save station
-                                $("body").on("click", "#saveStationBtn", function () {
-                                    var station = new Station("Station", Lacrimapsys.featureMarker.getPosition().lat(), Lacrimapsys.featureMarker.getPosition().lng(), _.escape($("#command").val()));
-                                    // To-do: add error handling => start from here 
-//                                    if the station's command attribute is not empty.
-                                    if (!Feature.isEmpty(station.getCommand())) {
-                                        // save station's data to the database.
-                                        Station.saveData(database, station);
-//                                        console.log("Command is empty");
-                                    }
-                                });
-                                // save outpost
-                                $("body").on("click", "#saveOutpostBtn", function () {
-                                    var outpost = new Outpost("Outpost", Lacrimapsys.featureMarker.getPosition().lat(),
-                                            Lacrimapsys.featureMarker.getPosition().lng(), _.escape($("#o_command").val()), _.escape($("#outpostName").val()));
-                                    // if the outpost's name attribute is not empty.
-                                    if (!Feature.isEmpty(outpost.getName())) {
-                                        // save outpost's data to the database.
-                                        Outpost.saveData(database, outpost);
-
-                                    }
-                                });
-                                // save patrol
-                                $("body").on("click", "#savePatrolBtn", function () {
-                                    var patrol = new Patrol("Patrol", Lacrimapsys.featureMarker.getPosition().lat(),
-                                            Lacrimapsys.featureMarker.getPosition().lng(), _.escape($("#p_command").val()), _.escape($("#patrolName").val()));
-                                    // if the patrol's name attribute is not empty.
-                                    if (!Feature.isEmpty(patrol.getName())) {
-                                        // save patrol's data to the database.
-                                        Patrol.saveData(database, patrol);
-                                    }
-                                });
-
-                            } else {
-                                // User is signed out.
-                                console.log("user signed out");
-                                // ...
+                                var type = decodeURIComponent(Lacrimapsys.getURLVars()['type']);
+                                var map = decodeURIComponent(Lacrimapsys.getURLVars()['map']);
+//console.log(typeof map);
+//console.log(typeof type);
+                                if (!Feature.isEmpty(type) && !Feature.isEmpty(map)) {
+                                    CrimeIncident.showTypeHeatMap(database, type, map);
+                                } else {
+                                    console.log("what happen na");
+                                    CrimeIncident.showHeatMap(database);
+                                }
+//                                console.log(decodeURIComponent(map));
                             }
-                            // ...
                         });
+                        // won't use this here
+//                        lcms.clickHandler(formOptions);
                     });
-
-
         </script>
-
 
         <!-- inline scripts related to this page -->
         <script type="text/javascript">
             jQuery(function ($) {
-
                 $('#recent-box [data-rel="tooltip"]').tooltip({placement: tooltip_placement});
                 function tooltip_placement(context, source) {
                     var $source = $(source);
-                    var $parent = $source.closest('.tab-content')
+                    var $parent = $source.closest('.tab-content');
                     var off1 = $parent.offset();
                     var w1 = $parent.width();
 
