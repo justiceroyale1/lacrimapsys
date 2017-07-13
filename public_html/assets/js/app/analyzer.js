@@ -65,7 +65,7 @@ Analyzer.prototype.performTimeBasedAnalysis = function () {
             // display success message
             messageBoxDiv = document.createElement('div');
             Lacrimapsys.displayMessage(messageBoxDiv, "The information has been saved.", '0');
-
+            
         } else {
             // display error message
             messageBoxDiv = document.createElement('div');
@@ -105,7 +105,7 @@ Analyzer.prototype.performCrimeBasedAnalysis = function () {
             Lacrimapsys.displayMessage(messageBoxDiv, error.toString(), '1');
         }
     });
-
+    
     // perform dailyCrimesPath transaction with data
     this.dailyCrimesPath.transaction(function (data) {
         return Analyzer.prototype.analyze(data);
@@ -146,31 +146,3 @@ Analyzer.prototype.analyze = function (data) {
     return data;
 };
 
-Analyzer.setHeatMapMenu = function (database) {
-    var analysisRef = database.ref("analysis/");
-    analysisRef.orderByValue().on('value', function (snapshot) {
-
-        if (snapshot.val()) {
-            var pack = [];
-            var count = 0;
-            snapshot.forEach(function (snap) {
-//                console.log(snap.key);
-//                pack.children.push(snap.key);
-                pack[count] = {
-                    type: '',
-                    children: []
-                };
-
-                pack[count].type = snap.key;
-                snap.forEach(function (s) {
-                    pack[count].children.push(s.key);
-                });
-            Lacrimapsys.createCrimeHeatMapMenu(pack[count].type, pack[count].children);
-                count++;
-//            console.log(pack);
-            });
-        } else {
-            console.warn("a database error occured");
-        }
-    });
-};
