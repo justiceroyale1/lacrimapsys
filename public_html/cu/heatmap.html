@@ -202,9 +202,7 @@
                                 var type = decodeURIComponent(Lacrimapsys.getURLVars()['type']);
                                 var map = decodeURIComponent(Lacrimapsys.getURLVars()['map']);
 
-//CrimeIncident.showHeatMap(database);
-console.log(Feature.isEmpty(type));
-console.log(Feature.isEmpty(map));
+
                                 if (Feature.isEmpty(type) || Feature.isEmpty(map)) {
                                     CrimeIncident.showHeatMap(database);
                                 } else {

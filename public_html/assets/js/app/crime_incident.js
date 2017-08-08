@@ -279,7 +279,10 @@ CrimeIncident.showTypeHeatMap = function (database, type, map) {
                     incidents.push(position);
                 }
             });
-            console.log(incidents);
+
+       
+//            console.log(incidents);
+
             Lacrimapsys.displayHeatMap(incidents);
         } else {
             console.error("a database error occured");
