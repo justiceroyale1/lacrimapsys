@@ -164,7 +164,7 @@
 
         <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&v=3&region=NG">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD87F9-bymlTOwSTUcn4rmXAnOmZPBOGts&libraries=visualization&v=3&region=NG">
         </script>
         <!--map functions-->
         <!--<script src="../assets/js/map.js"></script>-->
@@ -202,6 +202,10 @@
 //                            var analysisRef = firebase.database().ref("analysis/");
                                 // startup the system
                                 var lcms = new Lacrimapsys("map-canvas");
+                                
+                                CrimeIncident.setHeatMapMenu(database);
+                                Analyzer.setHeatMapMenu(database);
+                                
                                 lcms.clickHandler(formOptions);
                                 var options = {
                                     database: database
